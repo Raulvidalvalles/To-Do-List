@@ -1,0 +1,10 @@
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+npm-debug.log*
+
+# Carpeta de dependencias (muy importante para el futuro)
+node_modules
