@@ -33,6 +33,13 @@ function loadTasks() {
 
 function addTaskToDOM(text, note, tags, completed) {
     const newTask = document.createElement('li');
+    // Botón para completar tarea
+    const completeBtn = document.createElement('button');
+    completeBtn.className = 'complete-btn';
+    completeBtn.textContent = completed ? 'Completada' : 'Completar';
+    if (completed) completeBtn.classList.add('completed');
+    newTask.appendChild(completeBtn);
+    // Texto de la tarea
     const taskSpan = document.createElement('span');
     taskSpan.textContent = text;
     newTask.appendChild(taskSpan);
@@ -91,19 +98,25 @@ taskForm.addEventListener('submit', function(event) {
 
 // Pon este código debajo del listener del formulario
 taskList.addEventListener('click', function(event) {
-    const clickedElement = event.target; // El elemento exacto donde se hizo clic
-
-    // Si se hizo clic en un botón de borrar...
+    const clickedElement = event.target;
     if (clickedElement.classList.contains('delete-btn')) {
-        const taskItem = clickedElement.parentElement; // El <li> que contiene el botón
-        taskItem.remove(); // ¡Borramos la tarea!
-        saveTasks(); // Guardar después de borrar
+        const taskItem = clickedElement.parentElement;
+        taskItem.remove();
+        saveTasks();
+    } else if (clickedElement.classList.contains('complete-btn')) {
+        const taskItem = clickedElement.parentElement;
+        const isCompleted = taskItem.classList.toggle('completed');
+        clickedElement.textContent = isCompleted ? 'Completada' : 'Completar';
+        clickedElement.classList.toggle('completed', isCompleted);
+        saveTasks();
     }
-    // Si se hizo clic en el texto de la tarea (el <span>)
-    else if (clickedElement.tagName === 'SPAN' && !clickedElement.classList.contains('tag')) {
-        const taskItem = clickedElement.parentElement; // El <li> padre
-        taskItem.classList.toggle('completed'); // 'toggle' añade la clase si no la tiene, y la quita si la tiene
-        saveTasks(); // Guardar después de marcar completada
+});
+
+taskList.addEventListener('change', function(event) {
+    if (event.target.classList.contains('complete-checkbox')) {
+        const taskItem = event.target.parentElement;
+        taskItem.classList.toggle('completed', event.target.checked);
+        saveTasks();
     }
 });
 
