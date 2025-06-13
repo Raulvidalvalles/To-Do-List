@@ -1,41 +1,272 @@
-/* Un estilo simple para empezar */
-body {
-    font-family: sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-#task-form {
-    margin-bottom: 20px;
-}
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
+        }
 
-ul {
-    list-style-type: none; /* Quita los puntos de la lista */
-    padding: 0;
-}
+        #sidebar-menu {
+            min-width: 240px;
+            max-width: 280px;
+            background: linear-gradient(135deg, #f7fafc 60%, #e9d8fd 100%);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(102,126,234,0.13);
+            margin: 40px 30px 40px 40px;
+            padding: 36px 24px 28px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            height: fit-content;
+            align-items: stretch;
+            border: 1.5px solid #e2e8f0;
+            transition: box-shadow 0.2s;
+        }
 
-li {
-    background: #fff;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between; /* Para separar el texto del botón de borrar */
-    align-items: center;
-}
+        #sidebar-menu h1 {
+            font-size: 2.1rem;
+            color: #764ba2;
+            margin-bottom: 22px;
+            text-align: left;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 8px rgba(118,75,162,0.07);
+        }
 
-/* Clase que añadiremos con JS cuando una tarea esté completa */
-.completed {
-    text-decoration: line-through;
-    color: #888;
-}
+        #sidebar-menu label {
+            color: #4a5568;
+            font-size: 1em;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
 
-.delete-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 8px;
-    cursor: pointer;
-}
+        #sidebar-menu #task-form,
+        #sidebar-menu #filter-menu {
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+            margin: 0;
+        }
+
+        #sidebar-menu #task-form input[type="text"],
+        #sidebar-menu #task-form select {
+            margin-bottom: 8px;
+            width: 100%;
+        }
+
+        #sidebar-menu #task-form button[type="submit"] {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        #sidebar-menu #filter-menu {
+            margin-top: 10px;
+            gap: 8px;
+        }
+
+        #sidebar-menu #filter-tag {
+            width: 100%;
+        }
+
+        #sidebar-menu #tag-select {
+            min-height: 38px;
+        }
+
+        #sidebar-menu #custom-tag-input {
+            margin-bottom: 0;
+        }
+
+        #sidebar-menu::-webkit-scrollbar {
+            width: 8px;
+            background: #e9d8fd;
+            border-radius: 8px;
+        }
+
+        #sidebar-menu::-webkit-scrollbar-thumb {
+            background: #d6bcfa;
+            border-radius: 8px;
+        }
+
+        #task-form {
+            flex-direction: column;
+            align-items: stretch;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+            gap: 12px;
+        }
+
+        #filter-menu {
+            flex-direction: column;
+            align-items: stretch;
+            background: none;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+            gap: 8px;
+            margin: 0 0 10px 0;
+        }
+
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 40px;
+            margin-right: 40px;
+            width: 100%;
+        }
+
+        #task-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            width: 100%;
+            margin-top: 10px;
+            padding: 0;
+            list-style: none;
+        }
+
+        #task-list li {
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(102,126,234,0.10);
+            padding: 22px 18px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-height: 180px;
+            min-width: 0;
+            max-width: 100%;
+            transition: box-shadow 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        #task-list li:hover {
+            box-shadow: 0 8px 32px rgba(102,126,234,0.18);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        #task-list li.completed {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+
+        #task-list li .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #e53e3e;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 12px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        #task-list li .delete-btn:hover {
+            background: #c53030;
+        }
+
+        #task-list li span {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        .note {
+            margin-top: 6px;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            background: #f3e8ff;
+            border-radius: 8px;
+            color: #764ba2;
+            font-size: 1em;
+            font-style: italic;
+            max-width: 100%;
+        }
+
+        .tags {
+            margin-top: 4px;
+            margin-bottom: 2px;
+            padding-left: 0;
+        }
+
+        .tag {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border-radius: 8px;
+            padding: 2px 10px;
+            margin-right: 6px;
+            font-size: 0.92em;
+            font-weight: 500;
+            box-shadow: 0 1px 4px rgba(102,126,234,0.08);
+            margin-bottom: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin-top: 20px;
+                padding: 25px;
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 25px;
+            }
+
+            #task-form {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            #task-input {
+                width: 100%;
+            }
+
+            #task-form button {
+                width: 100%;
+            }
+
+            li {
+                padding: 15px;
+                flex-direction: column;
+                gap: 10px;
+                align-items: stretch;
+            }
+
+            li span {
+                padding-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .delete-btn {
+                align-self: flex-end;
+            }
+        }
+
+        /* Animación para cuando se borra una tarea */
+        @keyframes taskRemove {
+            to {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+        }
+
+        .removing {
+            animation: taskRemove 0.3s ease-in forwards;
+        }

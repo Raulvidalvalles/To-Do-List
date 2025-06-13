@@ -2,13 +2,20 @@
 const taskForm = document.querySelector('#task-form');
 const taskInput = document.querySelector('#task-input');
 const taskList = document.querySelector('#task-list');
+const noteInput = document.querySelector('#note-input');
+const tagSelect = document.querySelector('#tag-select');
+const customTagInput = document.querySelector('#custom-tag-input');
+const filterTag = document.querySelector('#filter-tag');
 
 // Guardar tareas en localStorage
 function saveTasks() {
     const tasks = [];
     taskList.querySelectorAll('li').forEach(li => {
+        const tags = Array.from(li.querySelectorAll('.tag')).map(tag => tag.textContent);
         tasks.push({
             text: li.querySelector('span').textContent,
+            note: li.querySelector('.note') ? li.querySelector('.note').textContent : '',
+            tags: tags,
             completed: li.classList.contains('completed')
         });
     });
@@ -17,19 +24,41 @@ function saveTasks() {
 
 // Cargar tareas desde localStorage
 function loadTasks() {
+    taskList.innerHTML = '';
     const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks.forEach(task => {
-        const newTask = document.createElement('li');
-        const taskSpan = document.createElement('span');
-        taskSpan.textContent = task.text;
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Borrar';
-        deleteBtn.classList.add('delete-btn');
-        newTask.appendChild(taskSpan);
-        newTask.appendChild(deleteBtn);
-        if (task.completed) newTask.classList.add('completed');
-        taskList.appendChild(newTask);
+        addTaskToDOM(task.text, task.note, task.tags, task.completed);
     });
+}
+
+function addTaskToDOM(text, note, tags, completed) {
+    const newTask = document.createElement('li');
+    const taskSpan = document.createElement('span');
+    taskSpan.textContent = text;
+    newTask.appendChild(taskSpan);
+    if (note) {
+        const noteDiv = document.createElement('div');
+        noteDiv.className = 'note';
+        noteDiv.textContent = note;
+        newTask.appendChild(noteDiv);
+    }
+    if (tags && tags.length > 0) {
+        const tagsDiv = document.createElement('div');
+        tagsDiv.className = 'tags';
+        tags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tag';
+            tagSpan.textContent = tag;
+            tagsDiv.appendChild(tagSpan);
+        });
+        newTask.appendChild(tagsDiv);
+    }
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Borrar';
+    deleteBtn.classList.add('delete-btn');
+    newTask.appendChild(deleteBtn);
+    if (completed) newTask.classList.add('completed');
+    taskList.appendChild(newTask);
 }
 
 // Cargar tareas al iniciar la página
@@ -42,31 +71,21 @@ taskForm.addEventListener('submit', function(event) {
 
     // 4. Obtener el texto que el usuario escribió en el input
     const taskText = taskInput.value.trim(); // .trim() quita espacios en blanco al inicio y final
+    const noteText = noteInput.value.trim();
+    const selectedTags = Array.from(tagSelect.selectedOptions).map(opt => opt.value);
+    const customTag = customTagInput.value.trim();
+    let tags = selectedTags;
+    if (customTag) tags = [...tags, customTag];
 
     // 5. Si el input no está vacío, crear y añadir la tarea
     if (taskText !== '') {
-        // Crear un nuevo elemento <li>
-        const newTask = document.createElement('li');
-        
-        // Crear un <span> para el texto de la tarea
-        const taskSpan = document.createElement('span');
-        taskSpan.textContent = taskText;
-        
-        // Crear un botón para borrar la tarea
-        const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Borrar';
-        deleteBtn.classList.add('delete-btn');
-        
-        // Añadir el <span> y el botón al <li>
-        newTask.appendChild(taskSpan);
-        newTask.appendChild(deleteBtn);
-        
-        // Añadir el <li> a la lista <ul>
-        taskList.appendChild(newTask);
-        saveTasks(); // Guardar después de añadir
-
+        addTaskToDOM(taskText, noteText, tags, false);
+        saveTasks();
         // 6. Limpiar el input para que el usuario pueda escribir otra tarea
         taskInput.value = '';
+        noteInput.value = '';
+        customTagInput.value = '';
+        tagSelect.selectedIndex = -1;
     }
 });
 
@@ -81,9 +100,20 @@ taskList.addEventListener('click', function(event) {
         saveTasks(); // Guardar después de borrar
     }
     // Si se hizo clic en el texto de la tarea (el <span>)
-    else if (clickedElement.tagName === 'SPAN') {
+    else if (clickedElement.tagName === 'SPAN' && !clickedElement.classList.contains('tag')) {
         const taskItem = clickedElement.parentElement; // El <li> padre
         taskItem.classList.toggle('completed'); // 'toggle' añade la clase si no la tiene, y la quita si la tiene
         saveTasks(); // Guardar después de marcar completada
     }
+});
+
+filterTag.addEventListener('change', function() {
+    const filter = filterTag.value;
+    Array.from(taskList.children).forEach(li => {
+        if (!filter || Array.from(li.querySelectorAll('.tag')).some(tag => tag.textContent === filter)) {
+            li.style.display = '';
+        } else {
+            li.style.display = 'none';
+        }
+    });
 });
