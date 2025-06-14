@@ -1,302 +1,388 @@
+/* Importar fuente moderna y elegante */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: flex-start;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 0;
-        }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 14px;
+    padding: 0;
+}
 
-        #sidebar-menu {
-            min-width: 240px;
-            max-width: 280px;
-            background: linear-gradient(135deg, #f7fafc 60%, #e9d8fd 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(102,126,234,0.13);
-            margin: 40px 30px 40px 40px;
-            padding: 36px 24px 28px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 36px;
-            height: fit-content;
-            align-items: stretch;
-            border: 1.5px solid #e2e8f0;
-            transition: box-shadow 0.2s;
-        }
+#sidebar-menu {
+    min-width: 320px;
+    max-width: 360px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.1);
+    margin: 32px 24px 32px 32px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    height: fit-content;
+    align-items: stretch;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        #sidebar-menu h1 {
-            font-size: 2.1rem;
-            color: #764ba2;
-            margin-bottom: 22px;
-            text-align: left;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(118,75,162,0.07);
-        }
+#sidebar-menu:hover {
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.1);
+}
 
-        #sidebar-menu label {
-            color: #4a5568;
-            font-size: 1em;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
+#sidebar-menu h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+    text-align: left;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
 
-        #sidebar-menu #task-form,
-        #sidebar-menu #filter-menu {
-            background: none;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0;
-            margin: 0;
-        }
+#sidebar-menu label {
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+    letter-spacing: -0.01em;
+}
 
-        #sidebar-menu #task-form input[type="text"],
-        #sidebar-menu #task-form select {
-            margin-bottom: 8px;
-            width: 100%;
-        }
+/* Estilos para inputs y selects */
+#sidebar-menu input[type="text"],
+#sidebar-menu select {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
 
-        #sidebar-menu #task-form button[type="submit"] {
-            width: 100%;
-            margin-top: 8px;
-        }
+#sidebar-menu input[type="text"]:focus,
+#sidebar-menu select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+}
 
-        #sidebar-menu #filter-menu {
-            margin-top: 10px;
-            gap: 8px;
-        }
+#sidebar-menu input[type="text"]::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
 
-        #sidebar-menu #filter-tag {
-            width: 100%;
-        }
+/* Select múltiple */
+#sidebar-menu #tag-select {
+    min-height: 42px;
+    padding: 8px 12px;
+}
 
-        #sidebar-menu #tag-select {
-            min-height: 38px;
-        }
+#sidebar-menu #tag-select option {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    background: white;
+    color: #1e293b;
+}
 
-        #sidebar-menu #custom-tag-input {
-            margin-bottom: 0;
-        }
+#sidebar-menu #tag-select option:checked {
+    background: #3b82f6;
+    color: white;
+}
 
-        #sidebar-menu::-webkit-scrollbar {
-            width: 8px;
-            background: #e9d8fd;
-            border-radius: 8px;
-        }
+/* Botón principal */
+#sidebar-menu button[type="submit"] {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 8px;
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
 
-        #sidebar-menu::-webkit-scrollbar-thumb {
-            background: #d6bcfa;
-            border-radius: 8px;
-        }
+#sidebar-menu button[type="submit"]:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
 
-        #task-form {
-            flex-direction: column;
-            align-items: stretch;
-            background: none;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0;
-            gap: 12px;
-        }
+#sidebar-menu button[type="submit"]:active {
+    transform: translateY(0);
+}
 
-        #filter-menu {
-            flex-direction: column;
-            align-items: stretch;
-            background: none;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0;
-            gap: 8px;
-            margin: 0 0 10px 0;
-        }
+/* Filtros */
+#sidebar-menu #filter-menu {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+}
 
-        #main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 40px;
-            margin-right: 40px;
-            width: 100%;
-        }
+#sidebar-menu #filter-tag {
+    width: 100%;
+    margin-bottom: 0;
+}
 
-        #task-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 28px;
-            width: 100%;
-            margin-top: 10px;
-            padding: 0;
-            list-style: none;
-        }
+/* Formulario */
+#task-form {
+    flex-direction: column;
+    align-items: stretch;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    gap: 4px;
+}
 
-        #task-list li {
-            background: rgba(255,255,255,0.97);
-            border-radius: 18px;
-            box-shadow: 0 4px 18px rgba(102,126,234,0.10);
-            padding: 22px 18px 18px 18px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-height: 180px;
-            min-width: 0;
-            max-width: 100%;
-            transition: box-shadow 0.2s, transform 0.2s;
-            position: relative;
-        }
+#filter-menu {
+    flex-direction: column;
+    align-items: stretch;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    gap: 8px;
+    margin: 0;
+}
 
-        #task-list li:hover {
-            box-shadow: 0 8px 32px rgba(102,126,234,0.18);
-            transform: translateY(-2px) scale(1.02);
-        }
+/* Contenido principal */
+#main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 32px;
+    margin-right: 32px;
+    width: 100%;
+}
 
-        #task-list li.completed {
-            opacity: 0.7;
-            text-decoration: line-through;
-        }
+#task-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 0;
+    list-style: none;
+}
 
-        #task-list li .delete-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #e53e3e;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 4px 12px;
-            font-size: 0.95em;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+/* Tarjetas de tareas */
+#task-list li {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 160px;
+    min-width: 0;
+    max-width: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
 
-        #task-list li .delete-btn:hover {
-            background: #c53030;
-        }
+#task-list li:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.2);
+}
 
-        #task-list li span {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #4a5568;
-            margin-bottom: 8px;
-        }
+#task-list li.completed {
+    opacity: 0.6;
+    background: rgba(248, 250, 252, 0.9);
+}
 
-        .note {
-            margin-top: 6px;
-            margin-bottom: 8px;
-            padding: 8px 12px;
-            background: #f3e8ff;
-            border-radius: 8px;
-            color: #764ba2;
-            font-size: 1em;
-            font-style: italic;
-            max-width: 100%;
-        }
+/* Botón de eliminar */
+#task-list li .delete-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
 
-        .tags {
-            margin-top: 4px;
-            margin-bottom: 2px;
-            padding-left: 0;
-        }
+#task-list li .delete-btn:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+}
 
-        .tag {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            border-radius: 8px;
-            padding: 2px 10px;
-            margin-right: 6px;
-            font-size: 0.92em;
-            font-weight: 500;
-            box-shadow: 0 1px 4px rgba(102,126,234,0.08);
-            margin-bottom: 2px;
-        }
+/* Texto de la tarea */
+#task-list li span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
 
-        @media (max-width: 600px) {
-            .container {
-                margin-top: 20px;
-                padding: 25px;
-                border-radius: 15px;
-            }
+/* Notas */
+.note {
+    margin-top: 8px;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    background: rgba(241, 245, 249, 0.8);
+    border-radius: 10px;
+    color: #475569;
+    font-size: 0.875rem;
+    font-style: italic;
+    font-weight: 400;
+    max-width: 100%;
+    line-height: 1.5;
+    border: 1px solid rgba(226, 232, 240, 0.5);
+}
 
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 25px;
-            }
+/* Etiquetas */
+.tags {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
 
-            #task-form {
-                flex-direction: column;
-                gap: 15px;
-            }
+.tag {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    letter-spacing: -0.01em;
+}
 
-            #task-input {
-                width: 100%;
-            }
+/* Botón de completar */
+.complete-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+    margin-right: 8px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    letter-spacing: -0.01em;
+}
 
-            #task-form button {
-                width: 100%;
-            }
+.complete-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
 
-            li {
-                padding: 15px;
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
-            }
+.complete-btn.completed {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    opacity: 0.8;
+}
 
-            li span {
-                padding-right: 0;
-                margin-bottom: 10px;
-            }
+#task-list li.completed span {
+    text-decoration: line-through;
+    color: #9ca3af;
+}
 
-            .delete-btn {
-                align-self: flex-end;
-            }
-        }
+#task-list li.completed .complete-btn {
+    opacity: 0.7;
+}
 
-        /* Animación para cuando se borra una tarea */
-        @keyframes taskRemove {
-            to {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-        }
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 16px;
+    }
+    
+    #sidebar-menu {
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0 0 24px 0;
+    }
+    
+    #main-content {
+        margin: 0;
+    }
+    
+    #task-list {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
 
-        .removing {
-            animation: taskRemove 0.3s ease-in forwards;
-        }
+/* Animaciones */
+@keyframes taskRemove {
+    to {
+        opacity: 0;
+        transform: translateX(100px) scale(0.8);
+    }
+}
 
-        .complete-btn {
-            background: linear-gradient(90deg, #38a169 0%, #68d391 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 18px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 10px;
-            margin-right: 8px;
-            box-shadow: 0 2px 8px rgba(56,161,105,0.08);
-            transition: background 0.2s, opacity 0.2s;
-        }
+.removing {
+    animation: taskRemove 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
 
-        .complete-btn.completed {
-            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
-            opacity: 0.85;
-            text-decoration: line-through;
-        }
+/* Scrollbar personalizada */
+#sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
 
-        #task-list li.completed span {
-            text-decoration: line-through;
-            color: #a0aec0;
-        }
+#sidebar-menu::-webkit-scrollbar-track {
+    background: rgba(226, 232, 240, 0.3);
+    border-radius: 10px;
+}
 
-        #task-list li.completed .complete-btn {
-            opacity: 0.85;
-        }
+#sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.5);
+    border-radius: 10px;
+}
+
+#sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.7);
+}
