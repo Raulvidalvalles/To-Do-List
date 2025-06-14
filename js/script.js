@@ -6,6 +6,59 @@ const noteInput = document.querySelector('#note-input');
 const tagSelect = document.querySelector('#tag-select');
 const customTagInput = document.querySelector('#custom-tag-input');
 const filterTag = document.querySelector('#filter-tag');
+const themeToggle = document.querySelector('#theme-toggle');
+
+// ============ FUNCIONALIDAD DEL TEMA ============
+
+// Función para aplicar el tema
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+}
+
+// Función para obtener el tema guardado o el preferido del sistema
+function getPreferredTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        return savedTheme;
+    }
+    
+    // Si no hay tema guardado, usar la preferencia del sistema
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+    }
+    
+    return 'light';
+}
+
+// Función para alternar el tema
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    applyTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+// Inicializar el tema al cargar la página
+function initTheme() {
+    const theme = getPreferredTheme();
+    applyTheme(theme);
+}
+
+// Event listener para el botón de cambio de tema
+themeToggle.addEventListener('click', toggleTheme);
+
+// Escuchar cambios en la preferencia del sistema
+if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        // Solo cambiar automáticamente si no hay tema guardado manualmente
+        if (!localStorage.getItem('theme')) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+}
+
+// ============ FUNCIONALIDAD DE TAREAS ============
 
 // Guardar tareas en localStorage
 function saveTasks() {
@@ -33,22 +86,28 @@ function loadTasks() {
 
 function addTaskToDOM(text, note, tags, completed) {
     const newTask = document.createElement('li');
+    
     // Botón para completar tarea
     const completeBtn = document.createElement('button');
     completeBtn.className = 'complete-btn';
     completeBtn.textContent = completed ? 'Completada' : 'Completar';
     if (completed) completeBtn.classList.add('completed');
     newTask.appendChild(completeBtn);
+    
     // Texto de la tarea
     const taskSpan = document.createElement('span');
     taskSpan.textContent = text;
     newTask.appendChild(taskSpan);
+    
+    // Nota si existe
     if (note) {
         const noteDiv = document.createElement('div');
         noteDiv.className = 'note';
         noteDiv.textContent = note;
         newTask.appendChild(noteDiv);
     }
+    
+    // Etiquetas si existen
     if (tags && tags.length > 0) {
         const tagsDiv = document.createElement('div');
         tagsDiv.className = 'tags';
@@ -60,16 +119,24 @@ function addTaskToDOM(text, note, tags, completed) {
         });
         newTask.appendChild(tagsDiv);
     }
+    
+    // Botón de eliminar
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Borrar';
     deleteBtn.classList.add('delete-btn');
     newTask.appendChild(deleteBtn);
+    
+    // Marcar como completada si corresponde
     if (completed) newTask.classList.add('completed');
+    
     taskList.appendChild(newTask);
 }
 
-// Cargar tareas al iniciar la página
-document.addEventListener('DOMContentLoaded', loadTasks);
+// Cargar tareas y aplicar tema al iniciar la página
+document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    loadTasks();
+});
 
 // 2. Añadir un "escuchador de eventos" (Event Listener) al formulario
 taskForm.addEventListener('submit', function(event) {
@@ -88,6 +155,7 @@ taskForm.addEventListener('submit', function(event) {
     if (taskText !== '') {
         addTaskToDOM(taskText, noteText, tags, false);
         saveTasks();
+        
         // 6. Limpiar el input para que el usuario pueda escribir otra tarea
         taskInput.value = '';
         noteInput.value = '';
@@ -96,32 +164,37 @@ taskForm.addEventListener('submit', function(event) {
     }
 });
 
-// Pon este código debajo del listener del formulario
+// Event listener para botones de eliminar y completar
 taskList.addEventListener('click', function(event) {
     const clickedElement = event.target;
+    
     if (clickedElement.classList.contains('delete-btn')) {
         const taskItem = clickedElement.parentElement;
-        taskItem.remove();
-        saveTasks();
+        
+        // Añadir animación de eliminación
+        taskItem.classList.add('removing');
+        
+        // Eliminar después de la animación
+        setTimeout(() => {
+            taskItem.remove();
+            saveTasks();
+        }, 300);
+        
     } else if (clickedElement.classList.contains('complete-btn')) {
         const taskItem = clickedElement.parentElement;
         const isCompleted = taskItem.classList.toggle('completed');
+        
         clickedElement.textContent = isCompleted ? 'Completada' : 'Completar';
         clickedElement.classList.toggle('completed', isCompleted);
+        
         saveTasks();
     }
 });
 
-taskList.addEventListener('change', function(event) {
-    if (event.target.classList.contains('complete-checkbox')) {
-        const taskItem = event.target.parentElement;
-        taskItem.classList.toggle('completed', event.target.checked);
-        saveTasks();
-    }
-});
-
+// Event listener para el filtro de etiquetas
 filterTag.addEventListener('change', function() {
     const filter = filterTag.value;
+    
     Array.from(taskList.children).forEach(li => {
         if (!filter || Array.from(li.querySelectorAll('.tag')).some(tag => tag.textContent === filter)) {
             li.style.display = '';
