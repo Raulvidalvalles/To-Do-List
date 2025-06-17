@@ -149,9 +149,11 @@ taskForm.addEventListener('submit', function(event) {
     const noteText = noteInput.value.trim();
     const selectedTags = Array.from(tagSelect.selectedOptions).map(opt => opt.value);
     const customTag = customTagInput.value.trim();
-    let tags = selectedTags;
-    if (customTag) tags = [...tags, customTag];
-
+    let tags = [...selectedTags];
+    if (customTag) {
+        tags.push(customTag);
+    }
+    
     // 5. Si el input no está vacío, crear y añadir la tarea
     if (taskText !== '') {
         addTaskToDOM(taskText, noteText, tags, false);
@@ -161,7 +163,8 @@ taskForm.addEventListener('submit', function(event) {
         taskInput.value = '';
         noteInput.value = '';
         customTagInput.value = '';
-        tagSelect.selectedIndex = -1;
+        // Deseleccionar todas las opciones
+        Array.from(tagSelect.options).forEach(opt => opt.selected = false);
     }
 });
 
@@ -203,4 +206,13 @@ filterTag.addEventListener('change', function() {
             li.style.display = 'none';
         }
     });
+});
+
+// Permitir deseleccionar opciones en el select múltiple
+tagSelect.addEventListener('mousedown', function(event) {
+    event.preventDefault();
+    const option = event.target;
+    if (option.tagName === 'OPTION') {
+        option.selected = !option.selected;
+    }
 });
