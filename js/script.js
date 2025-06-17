@@ -115,6 +115,7 @@ function addTaskToDOM(text, note, tags, completed) {
             const tagSpan = document.createElement('span');
             tagSpan.className = 'tag';
             tagSpan.textContent = tag;
+            tagSpan.setAttribute('data-tag', tag);
             tagsDiv.appendChild(tagSpan);
         });
         newTask.appendChild(tagsDiv);

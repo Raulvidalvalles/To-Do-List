@@ -391,14 +391,46 @@ body {
 
 .tag {
     display: inline-block;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-radius: 6px;
     padding: 4px 12px;
     margin: 4px 6px 4px 0;
     font-size: 0.85em;
     font-weight: 500;
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+}
+
+/* Colores específicos para cada etiqueta */
+.tag[data-tag="Trabajo"] {
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+    box-shadow: 0 2px 4px rgba(59,130,246,0.2);
+}
+
+.tag[data-tag="Personal"] {
+    background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);
+    box-shadow: 0 2px 4px rgba(236,72,153,0.2);
+}
+
+.tag[data-tag="Urgente"] {
+    background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+    box-shadow: 0 2px 4px rgba(239,68,68,0.2);
+}
+
+.tag[data-tag="Estudio"] {
+    background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);
+    box-shadow: 0 2px 4px rgba(139,92,246,0.2);
+}
+
+/* Color por defecto para etiquetas personalizadas */
+.tag:not([data-tag="Trabajo"]):not([data-tag="Personal"]):not([data-tag="Urgente"]):not([data-tag="Estudio"]) {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    box-shadow: 0 2px 4px rgba(16,185,129,0.2);
 }
 
 /* Botón de completar */
