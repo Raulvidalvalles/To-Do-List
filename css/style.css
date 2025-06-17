@@ -468,6 +468,40 @@ body {
     opacity: 0.7;
 }
 
+/* Nueva sección de búsqueda de etiquetas */
+.filter-search {
+    margin-top: 12px;
+}
+
+.filter-search label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    font-size: 0.95em;
+}
+
+#tag-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border-primary);
+    border-radius: 8px;
+    font-size: 0.95em;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+#tag-search:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    outline: none;
+    background: var(--bg-input-focus);
+}
+
+#tag-search::placeholder {
+    color: var(--text-muted);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     body {

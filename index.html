@@ -43,7 +43,7 @@
             <button type="submit">Añadir Tarea</button>
         </form>
         <div id="filter-menu">
-            <label for="filter-tag">Filtrar por etiqueta:</label>
+            <label for="filter-tag">Filtrar por etiquetas predefinidas:</label>
             <select id="filter-tag">
                 <option value="">Todas</option>
                 <option value="Trabajo">Trabajo</option>
@@ -51,6 +51,14 @@
                 <option value="Urgente">Urgente</option>
                 <option value="Estudio">Estudio</option>
             </select>
+            <div class="filter-search">
+                <label for="tag-search">Buscar etiqueta:</label>
+                <input 
+                    type="text" 
+                    id="tag-search" 
+                    placeholder="Escribe para buscar etiquetas..."
+                >
+            </div>
         </div>
     </div>
     <div id="main-content">

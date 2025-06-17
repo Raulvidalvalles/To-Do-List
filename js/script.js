@@ -7,6 +7,7 @@ const tagSelect = document.querySelector('#tag-select');
 const customTagInput = document.querySelector('#custom-tag-input');
 const filterTag = document.querySelector('#filter-tag');
 const themeToggle = document.querySelector('#theme-toggle');
+const tagSearch = document.querySelector('#tag-search');
 
 // ============ FUNCIONALIDAD DEL TEMA ============
 
@@ -195,17 +196,44 @@ taskList.addEventListener('click', function(event) {
     }
 });
 
-// Event listener para el filtro de etiquetas
-filterTag.addEventListener('change', function() {
-    const filter = filterTag.value;
+function filterTasks() {
+    const selectedTag = filterTag.value;
+    const searchText = tagSearch.value.trim().toLowerCase();
     
     Array.from(taskList.children).forEach(li => {
-        if (!filter || Array.from(li.querySelectorAll('.tag')).some(tag => tag.textContent === filter)) {
+        const tags = Array.from(li.querySelectorAll('.tag')).map(tag => tag.textContent.toLowerCase());
+        const matchesSelect = !selectedTag || tags.includes(selectedTag.toLowerCase());
+        const matchesSearch = !searchText || tags.some(tag => tag.includes(searchText));
+        
+        // Mostrar la tarea si coincide con ambos filtros o si no hay filtros activos
+        if ((matchesSelect && matchesSearch) || (!selectedTag && !searchText)) {
             li.style.display = '';
         } else {
             li.style.display = 'none';
         }
     });
+}
+
+// Actualizar los listeners para usar la nueva función de filtrado
+filterTag.addEventListener('change', filterTasks);
+
+// Agregar filtrado en tiempo real mientras se escribe
+tagSearch.addEventListener('input', filterTasks);
+
+// Limpiar búsqueda cuando se selecciona una etiqueta predefinida
+filterTag.addEventListener('change', function() {
+    if (this.value) {
+        tagSearch.value = '';
+    }
+    filterTasks();
+});
+
+// Limpiar selector cuando se escribe en la búsqueda
+tagSearch.addEventListener('input', function() {
+    if (this.value) {
+        filterTag.value = '';
+    }
+    filterTasks();
 });
 
 // Permitir deseleccionar opciones en el select múltiple
